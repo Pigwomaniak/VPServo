@@ -5,10 +5,11 @@
 #ifndef PROGRAMSKOKSERVA_LINEARSERVO_H
 #define PROGRAMSKOKSERVA_LINEARSERVO_H
 
-#include "Encoder-master/Encoder.h"
-#include "PIDArduino-master/src/PIDController.h"
+
+#include <Encoder.h>
+#include <PIDController.h>
 #include "MotorDriverTB6612FNG.h"
-#include "PinChangeInt-master/PinChangeInt.h"
+
 
 #define PWM_H_LIMIT (255)
 #define PWM_L_LIMIT (-255)
@@ -21,6 +22,8 @@
 
 class LinearServo {
 public:
+
+    LinearServo();
     LinearServo(unsigned int pwmLowLimit, unsigned int pwmHighLimit, unsigned int impulsesPerEncoderRevolution,
                 unsigned int maxRevolutions, unsigned int gearRatio);
 
@@ -28,15 +31,9 @@ public:
     volatile unsigned long prevTime = 0;
     uint8_t latestInterruptedPin = 0;
 
-
-    LinearServo();
     void base(int basePwm);
     void tune(double _kp, double _ki, double _kd);
     void compute();
-
-
-
-
 
 private:
 PIDController pidController;

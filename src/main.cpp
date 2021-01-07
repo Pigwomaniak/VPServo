@@ -2,10 +2,11 @@
 #include "LinearServo.h"
 #include "PinChangeInt-master/PinChangeInt.h"
 
+
 #define KP (10)
 #define KI (1)
 #define KD (0.5)
-
+#define BASE_PWM (30)
 
 LinearServo servo;
 LinearServo* servoPtr = &servo;
@@ -17,12 +18,13 @@ void setup() {
 // write your initialization code here
     inputInterruptSetUp();
     servo.tune(KP, KI, KD);
-    servo.base();
+    servo.base(BASE_PWM);
 }
 
 void loop() {
 // write your code here
     servo.compute();
+
 }
 
 void rising() {

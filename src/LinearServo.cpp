@@ -29,7 +29,7 @@ void LinearServo::base(int basePWM) {
     lastPos = encoder.read();
     lastPosMeasureTime = micros();
     while (velocity() > MIN_BASE_VEL){}
-    encoder.readAndReset();
+    encoder.write(0);
 }
 
 void LinearServo::compute() {
