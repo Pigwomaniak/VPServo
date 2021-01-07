@@ -41,6 +41,7 @@ void loop() {
         }
         if (inputComplete){
             servoPtr->inputSignal = inputString.toInt();
+            inputString = "";
         }
     }
 }
