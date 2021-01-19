@@ -26,6 +26,7 @@ void LinearServo::tune(double _kp, double _ki, double _kd) {
 
 void LinearServo::base(int basePWM) {
     motorDriver.run(-basePWM);
+    delay(500);
     lastPos = encoder.read();
     lastPosMeasureTime = micros();
     while (velocity() > MIN_BASE_VEL){}

@@ -2,7 +2,7 @@
 #include "LinearServo.h"
 #include "PinChangeInt-master/PinChangeInt.h"
 
-#define UART_ON false
+#define UART_ON true
 #define KP (10)
 #define KI (1)
 #define KD (0.5)
@@ -11,12 +11,14 @@
 LinearServo servo;
 LinearServo* servoPtr = &servo;
 
+String inputString = "";
+bool inputComplete = false;
+
 void rising();
 void falling();
 void inputInterruptSetUp();
 
 void setup() {
-// write your initialization code here
     if (!UART_ON){
         inputInterruptSetUp();
     } else{
@@ -27,11 +29,8 @@ void setup() {
 }
 
 void loop() {
-// write your code here
     servo.compute();
     if (UART_ON){
-        String inputString = "";
-        bool inputComplete = false;
         while (Serial.available()){
             char inChar = (char)Serial.read();
             inputString += inChar;
@@ -42,6 +41,7 @@ void loop() {
         if (inputComplete){
             servoPtr->inputSignal = inputString.toInt();
             inputString = "";
+            inputComplete = false;
         }
     }
 }
