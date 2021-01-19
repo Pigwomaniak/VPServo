@@ -29,7 +29,7 @@ void LinearServo::base(int basePWM) {
     delay(500);
     lastPos = encoder.read();
     lastPosMeasureTime = micros();
-    while (velocity() > MIN_BASE_VEL){}
+    while (velocity() > MIN_BASE_VEL)
     encoder.write(0);
 }
 
@@ -55,10 +55,19 @@ unsigned int LinearServo::positionDestination() const {
 }
 
 double LinearServo::velocity() {
-    double vel = double (encoder.read() - lastPos) / (micros() - lastPosMeasureTime);
+    double vel = double (encoder.read() - lastPos) / (micros() - lastPosMeasureTime) / 1000000;
     lastPos = encoder.read();
     lastPosMeasureTime = micros();
     return vel;
+}
+
+int32_t LinearServo::getPosition() {
+    return encoder.read();
+}
+
+void LinearServo::directMotorControl(int power) {
+    motorDriver.on();
+    motorDriver.run(power);
 }
 
 

@@ -18,7 +18,7 @@
 #define INPUT_PULSE_PIN (1)
 #define MIN_SIGNAL_INPUT (1000)
 #define MAX_SIGNAL_INPUT (2000)
-#define MIN_BASE_VEL (50)
+#define MIN_BASE_VEL (5)
 
 class LinearServo {
 public:
@@ -34,6 +34,8 @@ public:
     void base(int basePwm);
     void tune(double _kp, double _ki, double _kd);
     void compute();
+    int32_t getPosition();
+    void directMotorControl(int power);
 
 private:
 PIDController pidController;
