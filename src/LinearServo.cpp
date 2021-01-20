@@ -5,7 +5,7 @@
 #include "LinearServo.h"
 
 LinearServo::LinearServo() {
-    pidController = new PID (&actualPosition, &output, &positionDestination, KP_DEFAULT, KI_DEFAULT, KD_DEFAULT, DIRECT);
+    pidController = new PID(&actualPosition, &output, &positionDestination, KP_DEFAULT, KI_DEFAULT, KD_DEFAULT, REVERSE);
     pidController->SetOutputLimits(PWM_L_LIMIT, PWM_H_LIMIT);
     pidController->SetMode(AUTOMATIC);
     pidController->SetSampleTime(PID_SAMPLING_TIME_MS);
@@ -52,6 +52,7 @@ void LinearServo::compute() {
         motorDriver.on();
         positionDestination = positionDestinationCompute();
         actualPosition = encoder.read();
+        pidController->Compute();
         motorDriver.run(int(output));
     }
 }

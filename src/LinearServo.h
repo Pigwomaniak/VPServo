@@ -7,7 +7,6 @@
 
 
 #include <Encoder.h>
-//#include <PIDController.h>
 #include <PID_v1.h>
 #include "MotorDriverTB6612FNG.h"
 
@@ -20,8 +19,8 @@
 #define MIN_SIGNAL_INPUT (1000.0)
 #define MAX_SIGNAL_INPUT (2000.0)
 #define MIN_BASE_VEL (5)
-#define KP_DEFAULT (0.001)
-#define KI_DEFAULT (0)
+#define KP_DEFAULT (6)
+#define KI_DEFAULT (0.8)
 #define KD_DEFAULT (0)
 #define PID_SAMPLING_TIME_MS (10)
 
