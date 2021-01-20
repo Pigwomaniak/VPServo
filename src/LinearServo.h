@@ -44,7 +44,7 @@ public:
     int32_t getPosition();
     void directMotorControl(int power);
     void  directPosDest(double _positionDestination);
-
+    double velocity();
 
 
 
@@ -52,7 +52,6 @@ private:
 PID* pidController;
 Encoder encoder = Encoder(ENCODER_1_PIN, ENCODER_2_PIN);
 MotorDriverTB6612FNG motorDriver;
-
 
 unsigned int impulsesPerEncoderRevolution;
 unsigned int maxRevolutions;
@@ -63,8 +62,6 @@ double positionDestination = 0;
 double actualPosition = 0;
 double output = 0;
 unsigned long positionDestinationCompute() const;
-
-double velocity();
 };
 
 

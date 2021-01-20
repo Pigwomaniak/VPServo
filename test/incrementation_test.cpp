@@ -13,5 +13,5 @@ void setup() {
 
 void loop() {
     Serial.println(servo.getPosition());
-    delay(500);
+    delay(200);
 }
