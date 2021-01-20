@@ -81,5 +81,9 @@ LinearServo::~LinearServo() {
     delete pidController;
 }
 
+void LinearServo::directPosDest(double _positionDestination) {
+    positionDestination = _positionDestination;
+}
+
 
 

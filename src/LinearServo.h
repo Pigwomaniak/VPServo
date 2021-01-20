@@ -43,6 +43,8 @@ public:
     void compute();
     int32_t getPosition();
     void directMotorControl(int power);
+    void  directPosDest(double _positionDestination);
+
 
 
 
