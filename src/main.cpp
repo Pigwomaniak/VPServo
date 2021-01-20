@@ -3,16 +3,15 @@
 #include "PinChangeInt-master/PinChangeInt.h"
 
 #define UART_ON true
-#define KP (10)
-#define KI (1)
-#define KD (0.5)
+#define KP (0.001)
+#define KI (0)
+#define KD (0)
 #define BASE_PWM (30)
 
 LinearServo servo;
 LinearServo* servoPtr = &servo;
 
 String inputString = "";
-bool inputComplete = false;
 
 void rising();
 void falling();
@@ -31,17 +30,10 @@ void setup() {
 void loop() {
     servo.compute();
     if (UART_ON){
-        while (Serial.available()){
-            char inChar = (char)Serial.read();
-            inputString += inChar;
-            if (inChar == '\n'){
-                inputComplete = true;
-            }
-        }
-        if (inputComplete){
-            servoPtr->inputSignal = inputString.toInt();
-            inputString = "";
-            inputComplete = false;
+        if (Serial.available()){
+            inputString = Serial.readStringUntil('\n');
+            servo.inputSignal = inputString.toInt();
+            Serial.println(servo.inputSignal);
         }
     }
 }

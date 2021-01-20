@@ -49,7 +49,7 @@ void LinearServo::compute() {
     }
 }
 
-unsigned int LinearServo::positionDestination() const {
+unsigned long LinearServo::positionDestination() const {
     return unsigned ((inputSignal - MIN_SIGNAL_INPUT) * ((impulsesPerEncoderRevolution * gearRatio * maxRevolutions)
     / (MAX_SIGNAL_INPUT - MIN_SIGNAL_INPUT)));
 }
@@ -69,5 +69,6 @@ void LinearServo::directMotorControl(int power) {
     motorDriver.on();
     motorDriver.run(power);
 }
+
 
 

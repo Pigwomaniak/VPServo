@@ -14,10 +14,10 @@
 #define PWM_H_LIMIT (255)
 #define PWM_L_LIMIT (-255)
 #define ENCODER_1_PIN (2)
-#define ENCODER_2_PIN (5)
+#define ENCODER_2_PIN (3)
 #define INPUT_PULSE_PIN (1)
-#define MIN_SIGNAL_INPUT (1000)
-#define MAX_SIGNAL_INPUT (2000)
+#define MIN_SIGNAL_INPUT (1000.0)
+#define MAX_SIGNAL_INPUT (2000.0)
 #define MIN_BASE_VEL (5)
 
 class LinearServo {
@@ -37,6 +37,8 @@ public:
     int32_t getPosition();
     void directMotorControl(int power);
 
+
+
 private:
 PIDController pidController;
 Encoder encoder = Encoder(ENCODER_1_PIN, ENCODER_2_PIN);
@@ -49,7 +51,7 @@ double gearRatio;
 unsigned long lastPosMeasureTime = 0;
 long lastPos = 0;
 
-unsigned int positionDestination() const;
+unsigned long positionDestination() const;
 double velocity();
 };
 

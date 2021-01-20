@@ -61,5 +61,5 @@ MotorDriverTB6612FNG::MotorDriverTB6612FNG() {
     in1Pin = 6;
     in2Pin = 7;
     pwmPin = 9;
-    stbyPin = 11;
+    stbyPin = 5;
 }
