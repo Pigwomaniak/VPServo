@@ -3,7 +3,7 @@
 #include "PinChangeInt-master/PinChangeInt.h"
 
 #define UART_ON true
-#define BASE_PWM (30)
+#define BASE_PWM (40)
 #define KP (0.001)
 #define KI (0)
 #define KD (0)

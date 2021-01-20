@@ -37,6 +37,7 @@ void LinearServo::base(int basePWM) {
     velocityCompute();
     while (velocity > MIN_BASE_VEL){velocityCompute();}
     encoder.write(0);
+    motorDriver.run(0);
 }
 
 void LinearServo::compute() {
