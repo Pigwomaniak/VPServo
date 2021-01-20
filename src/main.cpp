@@ -11,7 +11,6 @@
 LinearServo servo;
 LinearServo* servoPtr = &servo;
 
-String inputString = "";
 
 void rising();
 void falling();
@@ -31,7 +30,7 @@ void loop() {
     servo.compute();
     if (UART_ON){
         if (Serial.available()){
-            inputString = Serial.readStringUntil('\n');
+            String inputString = Serial.readStringUntil('\n');
             servo.inputSignal = inputString.toInt();
             Serial.println(servo.inputSignal);
         }

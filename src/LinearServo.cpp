@@ -5,7 +5,7 @@
 #include "LinearServo.h"
 
 LinearServo::LinearServo() {
-    pidController = new PID(&actualPosition, &output, &positionDestination, KP_DEFAULT, KI_DEFAULT, KD_DEFAULT, REVERSE);
+    pidController = new PID(&actualPosition, &output, &positionDestination, KP_DEFAULT, KI_DEFAULT, KD_DEFAULT, DIRECT);
     pidController->SetOutputLimits(PWM_L_LIMIT, PWM_H_LIMIT);
     pidController->SetMode(AUTOMATIC);
     pidController->SetSampleTime(PID_SAMPLING_TIME_MS);
@@ -32,10 +32,10 @@ void LinearServo::tune(double _kp, double _ki, double _kd) {
 
 void LinearServo::base(int basePWM) {
     motorDriver.run(-basePWM);
+    velocityCompute();
     delay(500);
-    lastPos = encoder.read();
-    lastPosMeasureTime = micros();
-    while (velocity() > MIN_BASE_VEL)
+    velocityCompute();
+    while (velocity > MIN_BASE_VEL){velocityCompute();}
     encoder.write(0);
 }
 
@@ -62,11 +62,13 @@ unsigned long LinearServo::positionDestinationCompute() const {
     / (MAX_SIGNAL_INPUT - MIN_SIGNAL_INPUT)));
 }
 
-double LinearServo::velocity() {
-    double vel = double (encoder.read() - lastPos) / (micros() - lastPosMeasureTime) / 1000000;
-    lastPos = encoder.read();
-    lastPosMeasureTime = micros();
-    return vel;
+void LinearServo::velocityCompute() {
+    if((micros() - lastPosMeasureTime) > VELOCITY_MIN_TIME) {
+        double vel = double(encoder.read() - lastPos) / (micros() - lastPosMeasureTime) * 1000000;
+        lastPos = encoder.read();
+        lastPosMeasureTime = micros();
+        velocity = vel;
+    }
 }
 
 int32_t LinearServo::getPosition() {

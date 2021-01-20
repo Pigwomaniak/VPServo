@@ -23,6 +23,7 @@
 #define KI_DEFAULT (0.8)
 #define KD_DEFAULT (0)
 #define PID_SAMPLING_TIME_MS (10)
+#define VELOCITY_MIN_TIME (100000)
 
 
 class LinearServo {
@@ -43,8 +44,8 @@ public:
     int32_t getPosition();
     void directMotorControl(int power);
     void  directPosDest(double _positionDestination);
-    double velocity();
-
+    double getVelocity() const {return velocity;}
+    void velocityCompute();
 
 
 private:
@@ -60,7 +61,9 @@ long lastPos = 0;
 double positionDestination = 0;
 double actualPosition = 0;
 double output = 0;
+double velocity = 0;
 unsigned long positionDestinationCompute() const;
+
 };
 
 

@@ -20,8 +20,8 @@ void setup() {
 
 void loop() {
     if((micros() - prevTime1) > DISPLAY_TIME){
-        Serial.println(servo.velocity());
+        Serial.println(servo.getVelocity());
         prevTime1 = micros();
     }
-    servo.velocity();
+    servo.velocityCompute();
 }

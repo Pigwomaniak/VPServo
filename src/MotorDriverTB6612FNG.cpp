@@ -32,9 +32,9 @@ void MotorDriverTB6612FNG::run(int power) {
     if ((power > -1) && (power < 1)){
         shortBrake();
     }else if (power > 0){
-        cw();
-    } else{
         ccw();
+    } else{
+        cw();
     }
     if (abs(power) > PWM_MAX){
         power = PWM_MAX;
