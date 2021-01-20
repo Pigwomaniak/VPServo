@@ -29,7 +29,7 @@ void MotorDriverTB6612FNG::of() {
 }
 
 void MotorDriverTB6612FNG::run(int power) {
-    if (power == 0){
+    if ((power > -1) && (power < 1)){
         shortBrake();
     }else if (power > 0){
         cw();

@@ -5,8 +5,10 @@
 #include "LinearServo.h"
 
 LinearServo::LinearServo() {
-    pidController.begin();
-    pidController.limit(PWM_L_LIMIT, PWM_H_LIMIT);
+    pidController = new PID (&actualPosition, &output, &positionDestination, KP_DEFAULT, KI_DEFAULT, KD_DEFAULT, DIRECT);
+    pidController->SetOutputLimits(PWM_L_LIMIT, PWM_H_LIMIT);
+    pidController->SetMode(AUTOMATIC);
+    pidController->SetSampleTime(PID_SAMPLING_TIME_MS);
     impulsesPerEncoderRevolution = 12;
     maxRevolutions = 15;
     gearRatio = 100;
@@ -16,12 +18,16 @@ LinearServo::LinearServo(unsigned int pwmLowLimit, unsigned int pwmHighLimit, un
                          unsigned int maxRevolutions, unsigned int gearRatio) :
                          impulsesPerEncoderRevolution(impulsesPerEncoderRevolution), maxRevolutions(maxRevolutions),
                          gearRatio(gearRatio) {
-    pidController.begin();
-    pidController.limit(pwmLowLimit, pwmHighLimit);
+    pidController = new PID (&actualPosition, &output, &positionDestination, KP_DEFAULT, KI_DEFAULT, KD_DEFAULT, DIRECT);
+    pidController->SetOutputLimits(pwmLowLimit, pwmHighLimit);
+    pidController->SetMode(AUTOMATIC);
+    pidController->SetSampleTime(PID_SAMPLING_TIME_MS);
 }
 
+
+
 void LinearServo::tune(double _kp, double _ki, double _kd) {
-    pidController.tune(_kp, _ki, _kd);
+    pidController->SetTunings(_kp, _ki, _kd);
 }
 
 void LinearServo::base(int basePWM) {
@@ -44,12 +50,13 @@ void LinearServo::compute() {
             inputSignal = MAX_SIGNAL_INPUT;
         }
         motorDriver.on();
-        pidController.setpoint(positionDestination());
-        motorDriver.run(int(pidController.compute(encoder.read())));
+        positionDestination = positionDestinationCompute();
+        actualPosition = encoder.read();
+        motorDriver.run(int(output));
     }
 }
 
-unsigned long LinearServo::positionDestination() const {
+unsigned long LinearServo::positionDestinationCompute() const {
     return unsigned ((inputSignal - MIN_SIGNAL_INPUT) * ((impulsesPerEncoderRevolution * gearRatio * maxRevolutions)
     / (MAX_SIGNAL_INPUT - MIN_SIGNAL_INPUT)));
 }
@@ -68,6 +75,10 @@ int32_t LinearServo::getPosition() {
 void LinearServo::directMotorControl(int power) {
     motorDriver.on();
     motorDriver.run(power);
+}
+
+LinearServo::~LinearServo() {
+    delete pidController;
 }
 
 
