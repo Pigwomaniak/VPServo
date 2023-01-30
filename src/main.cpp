@@ -11,7 +11,6 @@
 LinearServo servo;
 LinearServo* servoPtr = &servo;
 
-
 void rising();
 void falling();
 void inputInterruptSetUp();
