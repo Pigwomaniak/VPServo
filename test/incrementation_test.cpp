@@ -1,6 +1,3 @@
-//
-// Created by Maciek on 19.01.2021.
-//
 #include <Arduino.h>
 #include "LinearServo.h"
 
